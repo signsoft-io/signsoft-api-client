@@ -1,0 +1,20 @@
+{
+    "name": "signsoft-io/signsoft-api-client",
+    "description": "API client for SignSoft business sign software",
+    "type": "library",
+    "require": {
+        "php": "^5.6",
+        "guzzlehttp/guzzle": "^6.5"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Shawn Welch"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "": "src/"
+        }
+    }
+}

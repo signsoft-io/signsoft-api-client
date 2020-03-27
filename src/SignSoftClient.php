@@ -13,6 +13,8 @@ class SignSoftClient {
 	
 	private $client;
 
+	private $last_response;
+
 	public $fingerprint = null;
 
 	public function __construct($url, $key, $options = [])
@@ -100,11 +102,27 @@ class SignSoftClient {
 			if( empty($response->errors) ) $response->errors = [$response->message];
 		}
 
+		$this->last_response = $response;
+
 		return $response;
 	}
 
 	public function hasError()
 	{
 		return $this->has_error;
+	}
+
+	public function getLastResponse()
+	{
+		return $this->last_response;
+	}
+
+	public function getErrors($glue = null)
+	{
+		$errors = $this->last_response->errors;
+
+		if( $glue ) $errors = implode($glue, $errors);
+
+		return $errors;
 	}
 }

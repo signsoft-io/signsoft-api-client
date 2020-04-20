@@ -29,7 +29,7 @@ class SignSoftClient {
 				'Accept' => 'application/json',
 				'Authorization' => 'Bearer ' . $key,
 			],
-		]);
+		], $options);
 
 		$this->client = new Client($options);
 	}

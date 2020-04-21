@@ -31,6 +31,16 @@ class SignSoftClient {
 			],
 		], $options);
 
+		if( ! empty($_SERVER['REMOTE_ADDR']) )
+		{
+			$options['headers']['X-SignSoft-Forwarded-IP'] = $_SERVER['REMOTE_ADDR'];
+		}
+
+		if( ! empty($_SERVER['HTTP_USER_AGENT']) )
+		{
+			$options['headers']['X-SignSoft-Forwarded-Agent'] = $_SERVER['HTTP_USER_AGENT'];
+		}
+
 		$this->client = new Client($options);
 	}
 

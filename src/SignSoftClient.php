@@ -109,7 +109,35 @@ class SignSoftClient {
 
 			$response = json_decode($e->getResponse()->getBody()->getContents());
 
-			if( empty($response->errors) ) $response->errors = [$response->message];
+			if( ! empty($response->errors) )
+			{
+				if( is_object($response->errors) )
+				{
+					$errors = [];
+
+					foreach ($response->errors as $field => $invalids)
+					{
+						foreach ($invalids as $invalid)
+						{
+							$errors[] = $invalid;
+						}
+					}
+
+					$response->errors = $errors;
+				}
+
+				elseif( ! is_array($response->errors) )
+				{
+					$response->errors = [$response->errors];
+				}
+			}
+
+			else
+			{
+				if( ! empty($response->message) ) $response->errors = [$response->message];
+
+				else $response->errors = ['API General Error'];
+			}
 		}
 
 		$this->last_response = $response;

@@ -15,6 +15,8 @@ class SignSoftClient {
 
 	private $last_response;
 
+	private $raw_response;
+
 	public $fingerprint = null;
 
 	public function __construct($url, $key, $options = [])
@@ -100,12 +102,16 @@ class SignSoftClient {
 		{
 			$response = $this->client->request($verb, $endpoint, $options);
 
+			$this->raw_response = $response;
+
 			$response = json_decode($response->getBody()->getContents());
 		}
 
 		catch(BadResponseException $e)
 		{
 			$this->has_error = true;
+
+			$this->raw_response = $e->getResponse();
 
 			$response = json_decode($e->getResponse()->getBody()->getContents());
 
@@ -153,6 +159,11 @@ class SignSoftClient {
 	public function getLastResponse()
 	{
 		return $this->last_response;
+	}
+
+	public function getRawResponse()
+	{
+		return $this->raw_response;
 	}
 
 	public function getErrors($glue = null)
